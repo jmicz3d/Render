@@ -13,8 +13,8 @@
 #include <GL/freeglut.h>
 
 
-GLuint scr_width 800
-GLuint scr_height 600
+GLuint scr_width = 800;
+GLuint scr_height = 600;
 
 //program is a handle for all sorts of information? (logs, shaders, etc.)
 GLuint program;
@@ -28,10 +28,10 @@ int init_resources()
 
   GLuint vertex_shader, fragment_shader;
 
-  vertex_shader = /*TODO*/create_shader("shader.v.glsl", GL_VERTEX_SHADER);
+  vertex_shader = createShader("shader.v.glsl", GL_VERTEX_SHADER);
   glAttachShader(program, vertex_shader);
 
-  fragment_shader = /*TODO*/create_shader("shader.f.glsl", GL_FRAGMENT_SHADER);
+  fragment_shader = createShader("shader.f.glsl", GL_FRAGMENT_SHADER);
   glAttachShader(program, fragment_shader);
 
   glLinkProgram(program);
@@ -39,7 +39,7 @@ int init_resources()
   glGetProgramiv(program, GL_LINK_STATUS, &link_ok);
   if(!link_ok){
     fprintf(stderr, "Error! glLinkProgram:");
-    print_log(program);
+    printLog(program);
     return 0;
   }
 
@@ -85,9 +85,9 @@ int main(int argc, char *argv[])
 {
 
   glutInit(&argc,argv);
-  glutInitCOntextVersion(2,0);
-  glutInitDisplayMode(GLUT_RGBA|APHA|GLUT_DOUBLE|GLUT_DEPTH);
-  glutInitWindowSize(scree_width, screen_height);
+  glutInitContextVersion(2,0);
+  glutInitDisplayMode(GLUT_RGBA|GLUT_ALPHA|GLUT_DOUBLE|GLUT_DEPTH);
+  glutInitWindowSize(scr_width, scr_height);
   glutCreateWindow("RenderEngine 4");
 
   GLenum glew_status = glewInit();
@@ -105,12 +105,12 @@ int main(int argc, char *argv[])
   if(!init_resources())
     return 1;
 
-  glutDisplauFunc(onDisplay);
-  glutReshapeFinc(onReshape);
+  glutDisplayFunc(onDisplay);
+  glutReshapeFunc(onReshape);
   glutIdleFunc(onIdle);
   glEnable(GL_BLEND);
   glEnable(GL_DEPTH_TEST);
-  glBLendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
   glutMainLoop();
 

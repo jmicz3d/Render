@@ -54,4 +54,66 @@ void onIdle()
   glutPostRedisplay();
 }
 
+//Resize, change perspective
+void onReshape(int width_new, int height_new)
+{
+  scr_width = width_new;
+  scr_height = height_new;
+  glViewport(0, 0, scr_width, scr_height);
+}
 
+void freeResources()
+{
+  glDeleteProgram(program);
+}
+
+
+void onDisplay()
+{
+  glClearColor(1.0, 1.0, 1.0, 1.0);
+  glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+
+  glUseProgram(program);
+
+  /*TODO: rendering*/
+
+  glutSwapBuffers();
+
+}
+
+int main(int argc, char *argv[])
+{
+
+  glutInit(&argc,argv);
+  glutInitCOntextVersion(2,0);
+  glutInitDisplayMode(GLUT_RGBA|APHA|GLUT_DOUBLE|GLUT_DEPTH);
+  glutInitWindowSize(scree_width, screen_height);
+  glutCreateWindow("RenderEngine 4");
+
+  GLenum glew_status = glewInit();
+  if(glew_status != GLEW_OK){
+    fprintf(stderr, "glewInit(): error: %s\n", glewGetErrorString(glew_status));
+    return 1;
+  }
+
+  if(!GLEW_VERSION_2_0) {
+    fprintf(stderr, "Error: your graphic card does not support OpenGL 2.0\n");
+    return 1;
+  }
+
+  //initialize resources
+  if(!init_resources())
+    return 1;
+
+  glutDisplauFunc(onDisplay);
+  glutReshapeFinc(onReshape);
+  glutIdleFunc(onIdle);
+  glEnable(GL_BLEND);
+  glEnable(GL_DEPTH_TEST);
+  glBLendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+  glutMainLoop();
+
+  freeResources();
+  return 0;
+}
