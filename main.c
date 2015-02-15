@@ -12,6 +12,7 @@
 /* Using the GLUT library for the base windowing setup */
 #include <GL/freeglut.h>
 
+#include "shader_utilities.h"
 
 GLuint scr_width = 800;
 GLuint scr_height = 600;
