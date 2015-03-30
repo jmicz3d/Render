@@ -5,5 +5,5 @@ all: main
 clean:
 	rm -f *.o main
 
-main: shader_utilities.o
+main: shader_utilities.o model_loader.o jdmath.o
 .PHONY: all clean
